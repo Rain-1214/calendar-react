@@ -1,0 +1,23 @@
+
+@import 'src/assets/sass/_variable.scss';
+
+.calendar-wrapper {
+  border: 2px solid $border-color-blue-light;
+  display: flex;
+  .calendar-detail-wrapper{
+    width: 70%;
+    padding: 10px;
+    .header{
+      display: flex;
+      padding-bottom: 10px;
+      border-bottom: 1px solid $border-color-blue;
+      >div{
+        margin-right: 10px;
+        display: flex;
+      }
+    }
+  }
+  .schedule-wrapper {
+    width: 30%;
+  }
+}

@@ -7,3 +7,11 @@ export interface ICalendarProps {
     scheduleIconColor?: string;
     showToday?: boolean;
 }
+
+export interface ICalendarStates {
+    width: number;
+    schedule: IScheduleList[];
+    showSchedule: boolean;
+    scheduleIconColor: string;
+    showToday: boolean;
+}

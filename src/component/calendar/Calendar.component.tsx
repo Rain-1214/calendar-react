@@ -1,16 +1,37 @@
 import * as React from "react";
-import { ICalendarProps } from "./Calendar.component.type";
+import "./Calendar.component.scss";
 
-class Calendar extends React.Component<ICalendarProps> {
+import { ICalendarProps, ICalendarStates } from "./Calendar.component.type";
+import CalendarDetailBody from "./children/calendar-body/CalendarBody.component";
+import CalendarDetailHeader from "./children/calendar-header/CalendarHeader.component";
+
+class Calendar extends React.Component<ICalendarProps, ICalendarStates> {
 
   constructor(props: ICalendarProps) {
     super(props);
+    this.state = {
+      schedule: props.schedule || [],
+      scheduleIconColor: props.scheduleIconColor || '#f60',
+      showSchedule: props.showSchedule || false,
+      showToday: props.showToday || true,
+      width: props.width || 550,
+    }
   }
 
   public render () {
     return (
-      <div className="wrapper">
-        <h1>calendar</h1>
+      <div className="calendar-wrapper" style={{width: this.state.width}}>
+        <div className="calendar-detail-wrapper">
+          <div className="header">
+            <CalendarDetailHeader />
+          </div>
+          <div className="body">
+            <CalendarDetailBody />
+          </div>
+        </div>
+        <div className="schedule-wrapper">
+          schedule
+        </div>
       </div>
     )
   }
