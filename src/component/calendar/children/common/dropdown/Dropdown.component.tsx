@@ -24,37 +24,46 @@ class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
       let canClose = false;
       document.addEventListener('mousedown', () => {
         canClose = true;
-      });
+      }, false);
       document.addEventListener('mouseup', () => {
-        if (canClose && this.state.listVisible) {
+        if (canClose) {
           canClose = false;
           this.setState({
             listVisible: false
           })
         }
-      })
+      }, false)
     }
   }
 
   public triggleOptionList = (event: React.MouseEvent) => {
     event.stopPropagation();
+    event.nativeEvent.stopImmediatePropagation();
     this.setState({
       listVisible: !this.state.listVisible
     })
   }
 
-  public updateSelectValue (listData: IListData, event: React.MouseEvent)  {
+  public updateSelectValue (listData: IListData, event: React.MouseEvent) {
     event.stopPropagation();
+    this.setState({
+      value: listData.value
+    })
     this.props.updateValue(listData.value);
+  }
+
+  public stopMouseDownPropagation (event: React.MouseEvent) {
+    event.stopPropagation();
+    event.nativeEvent.stopImmediatePropagation();
   }
 
   public render () {
     return (
       <div className="dropdown-wrapper" style={{width: this.props.width}}>
-        <div className="value" onMouseUp={this.triggleOptionList}>
+        <div className="value" onClick={this.triggleOptionList} onMouseDown={this.stopMouseDownPropagation}>
           {this.state.value}
         </div>
-        <span className="dropdown-btn" onMouseUp={this.triggleOptionList}>
+        <span className="dropdown-btn" onClick={this.triggleOptionList} onMouseDown={this.stopMouseDownPropagation}>
           <i className="icon-down" />
         </span>
         <div className="dropdown-list" hidden={!this.state.listVisible}>

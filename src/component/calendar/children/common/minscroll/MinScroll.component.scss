@@ -34,5 +34,8 @@ $border-color-gray:#e1e1e1;
   }
   .scroll-wrapper{
     position: relative;
+    .scroll-element{
+      position: relative;
+    }
   }
 }
