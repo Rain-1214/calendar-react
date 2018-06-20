@@ -6,11 +6,13 @@ export interface IDropdownProps {
   display?: string;
   listData: IListData[];
   globalClickClose?: boolean;
-  defaultValue?: string;
-  updateValue: (value: string) => void
+  placeholder?: string;
+  value: string | number | null;
+  updateValue: (value: string | number | null) => void
 }
 
 export interface IDropdownStates {
-  value: string;
+  value: string | number;
   listVisible: boolean;
+  scrollDistance: number;
 }

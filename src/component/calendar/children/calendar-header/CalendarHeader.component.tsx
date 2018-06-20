@@ -1,72 +1,123 @@
 import * as React from "react";
+import { IListData } from "../../index.type";
 import Dropdown from "../common/dropdown/Dropdown.component";
+import { ICalendarDetailHeaderProps, ICalendarDetailHeaderStates } from "./CalendarHeader.component.type";
 
-class CalendarDetailHeader extends React.Component {
+import LunarCalendarDataService from "../../../../tool/LunarCalendar";
+import './CalendarHeader.component.scss';
+
+class CalendarDetailHeader extends React.Component<ICalendarDetailHeaderProps, ICalendarDetailHeaderStates> {
+
+  public static defaultProps = {
+    month: new Date().getMonth() + 1,
+    year: new Date().getFullYear(),
+  }
+
+  public yearListData: IListData[] = [];
+  public monthListData: IListData[] = [];
+  public lunarCalendar = LunarCalendarDataService.getInstance();
 
   public state = {
-    day: null,
-    month: null,
-    year: null,
-    yearListData: [{
-      label: '123',
-      value: '123'
-    }]
+    month: 0,
+    year: 0,
   }
 
   public componentDidMount() {
-    const tempArray = [];
-    for (let i = 1900; i <= 2050; i++) {
-      tempArray.push({
+    this.setState({
+      month: this.props.month as number,
+      year: this.props.year as number,
+    })
+    const { startYear, endYear } = this.lunarCalendar.getScopeOfLunarYear();
+    for (let i = startYear; i <= endYear; i++) {
+      this.yearListData.push({
         label: `${i}年`,
-        value: `${i}`
+        value: i
       });
     }
-    this.setState({
-      yearListData: tempArray
-    })
+    for (let i = 1; i <= 12; i++) {
+      this.monthListData.push({
+        label: `${i}月`,
+        value: i
+      })
+    }
   }
 
-  public resceiveDate = (value: string, selectValue: 'month' | 'year') => {
-    switch(value) {
+  public resceiveDate = (value: number, selectValue: 'month' | 'year') => {
+    switch(selectValue) {
       case 'year':
         this.setState({
-          year: selectValue
+          year: value
         });
         break;
       case 'month':
         this.setState({
-          month: selectValue
+          month: value
         });
         break;
     }
   }
 
-  public testAdd = () => {
-    const tempArray = this.state.yearListData;
-    tempArray.push({
-      label: '100year',
-      value: '100',
-    })
-    this.setState({
-      yearListData: tempArray
-    })
+  public jump2nextMonth = () => {
+    const { endYear } = this.lunarCalendar.getScopeOfLunarYear();
+    if (this.state.year === endYear && this.state.month === 12) {
+      return;
+    }
+    if (this.state.month === 12) {
+      this.setState({
+        month: 1,
+        year: this.state.year + 1,
+      })
+    } else {
+      this.setState({
+        month: this.state.month + 1
+      })
+    }
+    if (this.props.updateDate) {
+      this.props.updateDate({ year: this.state.year + 1, month: this.state.month + 1})
+    }
   }
 
-  public b = (event: React.MouseEvent) => {
-    event.stopPropagation();
-    event.nativeEvent.stopImmediatePropagation();
+  public jump2PrevMonth = () => {
+    const { startYear } = this.lunarCalendar.getScopeOfLunarYear();
+    if (this.state.year === startYear && this.state.month === 1) {
+      return;
+    }
+    if (this.state.month === 1) {
+      this.setState({
+        month: 12,
+        year: this.state.year - 1
+      })
+    } else {
+      this.setState({
+        month: this.state.month - 1
+      })
+    }
+    if (this.props.updateDate) {
+      this.props.updateDate({ year: this.state.year + 1, month: this.state.month + 1})
+    }
   }
-
+  
   public render () {
     return (
       <div className="calendar-header">
         <div>
-          <Dropdown listData={this.state.yearListData}
+          <Dropdown listData={this.yearListData}
                     maxHeight={200}
+                    placeholder="年"
+                    value={this.state.year}
                     updateValue={this.resceiveDate.bind(this, 'year')} />
         </div>
         <div>
-          <button onClick={this.testAdd} onMouseDown={this.b}>add</button>
+          <div className="icon prev" onClick={this.jump2PrevMonth} />
+          <Dropdown listData={this.monthListData}
+                    maxHeight={200}
+                    placeholder="月"
+                    value={this.state.month}
+                    updateValue={this.resceiveDate.bind(this, 'month')} />
+          <div className="icon next" onClick={this.jump2nextMonth} />
+        </div>
+        <div>
+          <button className="btn" onClick={this.props.returnToday}>返回今日</button>
         </div>
       </div>
     )

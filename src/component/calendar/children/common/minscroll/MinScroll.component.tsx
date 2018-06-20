@@ -45,10 +45,6 @@ class MinScroll extends React.Component<IMinScrollProps, IMinScrollStates> {
    * 记录拖拽开始时滚动的位置
    */
   public startMoveScrollDistance = 0;
-  /**
-   * 记录总子元素数量，用于检测是否发生元素增删以触发滚动条重新定位
-   */
-  public elementCountNum = 0;
   public state = {
     scrollBarDistance: 0,
     scrollElementDistance: 0
@@ -68,18 +64,20 @@ class MinScroll extends React.Component<IMinScrollProps, IMinScrollStates> {
   }
 
   public componentDidUpdate () {
-    if (this.props.maxHeight) {
-      this.sourceHeight = (this.scrollWrapperRef.current as HTMLElement).clientHeight;
+    const current = this.scrollWrapperRef.current as HTMLElement;
+    if (this.props.maxHeight && current.clientHeight !== 0 && current.clientHeight !== this.sourceHeight) {
+      this.sourceHeight = current.clientHeight;
       this.maxScrollElementDistance = this.sourceHeight - this.props.maxHeight;
       this.maxScrollBarDistance = this.props.maxHeight - this.scrollBarHeight;
-      // tslint:disable-next-line:no-console
-      console.log((this.scrollWrapperRef.current as HTMLElement).childElementCount)
-      if ((this.scrollWrapperRef.current as HTMLElement).childElementCount !== this.elementCountNum) {
-        // tslint:disable-next-line:no-console
-        console.log(1);
-        this.elementCountNum = (this.scrollWrapperRef.current as HTMLElement).childElementCount;
-        this.setScrollBarDistance(this.state.scrollBarDistance);
-      }
+      this.setScrollElementDistance(this.props.scrollDistance ? -this.props.scrollDistance : this.state.scrollElementDistance);
+    }
+  }
+
+  public componentWillReceiveProps (nextProps: IMinScrollProps) {
+    if (nextProps.scrollDistance && -nextProps.scrollDistance !== this.state.scrollElementDistance) {
+      setTimeout(() => {
+        this.setScrollElementDistance(-(nextProps.scrollDistance as number));
+      }, 0);
     }
   }
 
@@ -95,7 +93,7 @@ class MinScroll extends React.Component<IMinScrollProps, IMinScrollStates> {
     this.setScrollBarDistance(scrollDistance);
   }
 
-  public stopPropagation (event: React.MouseEvent) {
+  public stopPropagation (event: React.MouseEvent) { 
     event.stopPropagation();
     event.nativeEvent.stopImmediatePropagation();
   }

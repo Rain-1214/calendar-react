@@ -7,17 +7,21 @@ import { IDropdownProps, IDropdownStates } from "./Dropdown.component.type";
 
 class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
 
+  
   public static defaultProps = {
     display: 'inline-block',
     globalClickClose: true,
     maxHeight: Number.MAX_SAFE_INTEGER,
     width: 80,
   }
-
+  
   public state = {
     listVisible: false,
-    value: this.props.defaultValue || '待选择',
+    scrollDistance: 0,
+    value: this.props.placeholder || '待选择',
   }
+
+  private liHeight = 24;
 
   public componentDidMount () {
     if (this.props.globalClickClose) {
@@ -36,11 +40,27 @@ class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
     }
   }
 
+  public componentWillReceiveProps (nextProps: IDropdownProps) {
+    if (nextProps.value && nextProps.value !== this.state.value) {
+      this.setState({
+        value: nextProps.value
+      })
+    }
+  }
+
   public triggleOptionList = (event: React.MouseEvent) => {
     event.stopPropagation();
     event.nativeEvent.stopImmediatePropagation();
+    let scrollDistance = 0;
+    for (let i = 0; i < this.props.listData.length; i++) {
+      if (this.props.listData[i].value === this.state.value) {
+        scrollDistance = i * this.liHeight;
+        break;
+      }
+    }
     this.setState({
-      listVisible: !this.state.listVisible
+      listVisible: !this.state.listVisible,
+      scrollDistance,
     })
   }
 
@@ -67,7 +87,7 @@ class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
           <i className="icon-down" />
         </span>
         <div className="dropdown-list" hidden={!this.state.listVisible}>
-          <MinScroll maxHeight={this.props.maxHeight}>
+          <MinScroll maxHeight={this.props.maxHeight} scrollDistance={this.state.scrollDistance}>
             <ul>
               {this.props.listData.map((listData, i) => (
                 <li key={i} onClick={this.updateSelectValue.bind(this, listData)}>{listData.label}</li>

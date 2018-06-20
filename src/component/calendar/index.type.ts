@@ -12,7 +12,7 @@ export interface ILunarData {
 
 export interface IListData {
   label: string;
-  value: string;
+  value: any;
 }
 
 

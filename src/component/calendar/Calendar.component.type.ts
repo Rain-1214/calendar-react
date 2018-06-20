@@ -1,4 +1,4 @@
-import { IScheduleList } from "./index.type";
+import { IScheduleList, ISelectDate } from "./index.type";
 
 export interface ICalendarProps {
     width?: number;
@@ -6,6 +6,10 @@ export interface ICalendarProps {
     showSchedule?: boolean;
     scheduleIconColor?: string;
     showToday?: boolean;
+    defaultYear?: number;
+    defaultMonth?: number;
+    defaultDay?: number;
+    updateDate?: (selectDate: ISelectDate) => void;
 }
 
 export interface ICalendarStates {
@@ -14,4 +18,7 @@ export interface ICalendarStates {
     showSchedule: boolean;
     scheduleIconColor: string;
     showToday: boolean;
+    year: number;
+    month: number;
+    day: number;
 }

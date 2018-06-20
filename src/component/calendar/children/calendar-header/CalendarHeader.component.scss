@@ -1,3 +1,12 @@
+@import 'src/assets/sass/_variable.scss';
+
+.calendar-header {
+  >div{
+    margin-right: 10px;
+    display: flex;
+  }
+}
+
 .icon{
   box-sizing: border-box;
   width: 22px;
