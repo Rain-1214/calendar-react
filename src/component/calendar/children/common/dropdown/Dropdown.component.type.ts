@@ -14,5 +14,4 @@ export interface IDropdownProps {
 export interface IDropdownStates {
   value: string | number;
   listVisible: boolean;
-  scrollDistance: number;
 }

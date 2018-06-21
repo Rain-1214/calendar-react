@@ -17,13 +17,14 @@ class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
   
   public state = {
     listVisible: false,
-    scrollDistance: 0,
-    value: this.props.placeholder || '待选择',
+    value: this.props.value || this.props.placeholder || '待选择',
   }
 
   private liHeight = 24;
+  private minScrollComponentRef: React.RefObject<MinScroll>;
 
   public componentDidMount () {
+    this.minScrollComponentRef = React.createRef();
     if (this.props.globalClickClose) {
       let canClose = false;
       document.addEventListener('mousedown', () => {
@@ -60,14 +61,15 @@ class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
     }
     this.setState({
       listVisible: !this.state.listVisible,
-      scrollDistance,
+    }, () => {
+      (this.minScrollComponentRef.current as MinScroll).setScrollElementDistance(-scrollDistance);
     })
   }
 
   public updateSelectValue (listData: IListData, event: React.MouseEvent) {
     event.stopPropagation();
     this.setState({
-      value: listData.value
+      value: listData.value || this.props.placeholder || '待选择'
     })
     this.props.updateValue(listData.value);
   }
@@ -87,7 +89,7 @@ class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
           <i className="icon-down" />
         </span>
         <div className="dropdown-list" hidden={!this.state.listVisible}>
-          <MinScroll maxHeight={this.props.maxHeight} scrollDistance={this.state.scrollDistance}>
+          <MinScroll maxHeight={this.props.maxHeight} ref={this.minScrollComponentRef}>
             <ul>
               {this.props.listData.map((listData, i) => (
                 <li key={i} onClick={this.updateSelectValue.bind(this, listData)}>{listData.label}</li>

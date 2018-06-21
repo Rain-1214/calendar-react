@@ -22,7 +22,7 @@ class CalendarDetailHeader extends React.Component<ICalendarDetailHeaderProps, I
     year: 0,
   }
 
-  public componentDidMount() {
+  public componentWillMount() {
     this.setState({
       month: this.props.month as number,
       year: this.props.year as number,
@@ -42,7 +42,20 @@ class CalendarDetailHeader extends React.Component<ICalendarDetailHeaderProps, I
     }
   }
 
-  public resceiveDate = (value: number, selectValue: 'month' | 'year') => {
+  public componentWillReceiveProps (nextProps: ICalendarDetailHeaderProps) {
+    if (nextProps.year) {
+      this.setState({
+        year: nextProps.year
+      })
+    }
+    if (nextProps.month) {
+      this.setState({
+        month: nextProps.month
+      })
+    }
+  }
+
+  public resceiveDate = (selectValue: 'month' | 'year', value: number) => {
     switch(selectValue) {
       case 'year':
         this.setState({
@@ -62,18 +75,20 @@ class CalendarDetailHeader extends React.Component<ICalendarDetailHeaderProps, I
     if (this.state.year === endYear && this.state.month === 12) {
       return;
     }
+    let { year, month } = this.state;
     if (this.state.month === 12) {
+      month = 1;
       this.setState({
-        month: 1,
-        year: this.state.year + 1,
+        month,
+        year: year++,
       })
     } else {
       this.setState({
-        month: this.state.month + 1
+        month: month++
       })
     }
     if (this.props.updateDate) {
-      this.props.updateDate({ year: this.state.year + 1, month: this.state.month + 1})
+      this.props.updateDate({ year, month })
     }
   }
 
@@ -82,18 +97,20 @@ class CalendarDetailHeader extends React.Component<ICalendarDetailHeaderProps, I
     if (this.state.year === startYear && this.state.month === 1) {
       return;
     }
+    let { year, month } = this.state;
     if (this.state.month === 1) {
+      month = 12;
       this.setState({
-        month: 12,
-        year: this.state.year - 1
+        month,
+        year: year--
       })
     } else {
       this.setState({
-        month: this.state.month - 1
+        month: month--
       })
     }
     if (this.props.updateDate) {
-      this.props.updateDate({ year: this.state.year + 1, month: this.state.month + 1})
+      this.props.updateDate({ year, month })
     }
   }
   

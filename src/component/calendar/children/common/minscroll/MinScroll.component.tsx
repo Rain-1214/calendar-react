@@ -69,15 +69,7 @@ class MinScroll extends React.Component<IMinScrollProps, IMinScrollStates> {
       this.sourceHeight = current.clientHeight;
       this.maxScrollElementDistance = this.sourceHeight - this.props.maxHeight;
       this.maxScrollBarDistance = this.props.maxHeight - this.scrollBarHeight;
-      this.setScrollElementDistance(this.props.scrollDistance ? -this.props.scrollDistance : this.state.scrollElementDistance);
-    }
-  }
-
-  public componentWillReceiveProps (nextProps: IMinScrollProps) {
-    if (nextProps.scrollDistance && -nextProps.scrollDistance !== this.state.scrollElementDistance) {
-      setTimeout(() => {
-        this.setScrollElementDistance(-(nextProps.scrollDistance as number));
-      }, 0);
+      this.setScrollElementDistance(this.state.scrollElementDistance);
     }
   }
 
@@ -95,6 +87,7 @@ class MinScroll extends React.Component<IMinScrollProps, IMinScrollStates> {
 
   public stopPropagation (event: React.MouseEvent) { 
     event.stopPropagation();
+    event.nativeEvent.stopPropagation();
     event.nativeEvent.stopImmediatePropagation();
   }
 
@@ -110,6 +103,27 @@ class MinScroll extends React.Component<IMinScrollProps, IMinScrollStates> {
     this.canMove = false;
   } 
   
+  public setScrollElementDistance = (scrollDistance: number) => {
+    let scrollElementDistance = scrollDistance;
+    scrollElementDistance = scrollElementDistance > 0 ? 0 : scrollElementDistance < -this.maxScrollElementDistance ? -this.maxScrollElementDistance : scrollElementDistance;
+    const scrollElementPercent = Math.abs(scrollElementDistance) / this.maxScrollElementDistance;
+    const scrollBarDistance = scrollElementPercent * this.maxScrollBarDistance;
+    this.setState({
+      scrollBarDistance,
+      scrollElementDistance
+    })
+  }
+
+  public setScrollBarDistance = (scrollDistance: number) => {
+    let scrollBarDistance = scrollDistance;
+    scrollBarDistance = scrollBarDistance < 0 ? 0 : scrollBarDistance > this.maxScrollBarDistance ? this.maxScrollBarDistance : scrollBarDistance;
+    const scrollBarPercent = scrollBarDistance / this.maxScrollBarDistance;
+    const scrollElementDistance = -this.maxScrollElementDistance * scrollBarPercent;
+    this.setState({
+      scrollBarDistance,
+      scrollElementDistance
+    })
+  }
 
   public render () {
     const hasScrollClassList = {
@@ -144,28 +158,6 @@ class MinScroll extends React.Component<IMinScrollProps, IMinScrollStates> {
         </div>
       </div>
     )
-  }
-
-  private setScrollElementDistance (scrollDistance: number) {
-    let scrollElementDistance = scrollDistance;
-    scrollElementDistance = scrollElementDistance > 0 ? 0 : scrollElementDistance < -this.maxScrollElementDistance ? -this.maxScrollElementDistance : scrollElementDistance;
-    const scrollElementPercent = Math.abs(scrollElementDistance) / this.maxScrollElementDistance;
-    const scrollBarDistance = scrollElementPercent * this.maxScrollBarDistance;
-    this.setState({
-      scrollBarDistance,
-      scrollElementDistance
-    })
-  }
-
-  private setScrollBarDistance (scrollDistance: number) {
-    let scrollBarDistance = scrollDistance;
-    scrollBarDistance = scrollBarDistance < 0 ? 0 : scrollBarDistance > this.maxScrollBarDistance ? this.maxScrollBarDistance : scrollBarDistance;
-    const scrollBarPercent = scrollBarDistance / this.maxScrollBarDistance;
-    const scrollElementDistance = -this.maxScrollElementDistance * scrollBarPercent;
-    this.setState({
-      scrollBarDistance,
-      scrollElementDistance
-    })
   }
 
 }

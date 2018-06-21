@@ -40,6 +40,8 @@ class Calendar extends React.Component<ICalendarProps, ICalendarStates> {
   }
 
   public receiveDateChange = (changeValue: { year: number, month: number, day?: number }) => {
+    // tslint:disable-next-line:no-console
+    console.log(changeValue)
     switch (true) {
       case !!changeValue.year:
         this.setState({
@@ -61,10 +63,12 @@ class Calendar extends React.Component<ICalendarProps, ICalendarStates> {
       <div className="calendar-wrapper" style={{width: this.state.width}}>
         <div className="calendar-detail-wrapper">
           <div className="header">
-            <CalendarDetailHeader returnToday={this.returnToday} updateDate={this.receiveDateChange} />
+            <CalendarDetailHeader year={this.state.year} month={this.state.month} returnToday={this.returnToday} updateDate={this.receiveDateChange} />
           </div>
           <div className="body">
-            <CalendarDetailBody />
+            <CalendarDetailBody year={this.state.year} month={this.state.month} day={this.state.year}
+                                scheduleIconColor={this.state.scheduleIconColor} showSchedule={this.state.showSchedule}
+                                updateDate={this.receiveDateChange}/>
           </div>
         </div>
         <div className="schedule-wrapper">
