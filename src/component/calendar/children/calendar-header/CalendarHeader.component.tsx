@@ -56,16 +56,24 @@ class CalendarDetailHeader extends React.Component<ICalendarDetailHeaderProps, I
   }
 
   public resceiveDate = (selectValue: 'month' | 'year', value: number) => {
+    // tslint:disable-next-line:no-console
+    console.log(selectValue, value);
     switch(selectValue) {
       case 'year':
         this.setState({
           year: value
         });
+        if (this.props.updateDate) {
+          this.props.updateDate({ year: value, month: this.state.month })
+        }
         break;
       case 'month':
         this.setState({
           month: value
         });
+        if (this.props.updateDate) {
+          this.props.updateDate({ month: value, year: this.state.year })
+        }
         break;
     }
   }

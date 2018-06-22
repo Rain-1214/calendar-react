@@ -23,8 +23,6 @@ class CalendarDetailBody extends React.Component<ICalendarDetailBodyProps, ICale
   }
 
   public componentWillReceiveProps (nextProps: ICalendarDetailBodyProps) {
-    // tslint:disable-next-line:no-console
-    console.log(nextProps);
     if (nextProps.year !== this.year || nextProps.month !== this.month) {
       this.year = nextProps.year || this.year;
       this.month = nextProps.month || this.month;
@@ -53,8 +51,8 @@ class CalendarDetailBody extends React.Component<ICalendarDetailBodyProps, ICale
       const currentTr = tableData[i];
       for (let j = currentTr.length - 1; currentTr.length < 7; j++) {
         currentTr.push({
-          day: day++,
-          hasSchedule: false,
+          day,
+          hasSchedule: this.checkHasSchedule(year, month ,day),
           isNotInCurrentMonth: false,
           isWeekend: j >= 5,
           lunarDay,
@@ -62,6 +60,7 @@ class CalendarDetailBody extends React.Component<ICalendarDetailBodyProps, ICale
           month,
           year,
         })
+        day++;
         lunarDay++;
         if (lunarDay > lunarData.currentMonthDaysNum) {
           lunarData = this.lunarData.getLunarMonthAndDay(year, month, day);
@@ -89,8 +88,8 @@ class CalendarDetailBody extends React.Component<ICalendarDetailBodyProps, ICale
     let week = prevMonthLastDayDate.getDay() === 0 ? 7 : prevMonthLastDayDate.getDay();
     for (let i = week; i > 0; i--) {
       tempArray.unshift({
-        day: day--,
-        hasSchedule: false,
+        day,
+        hasSchedule: this.checkHasSchedule(year, month, day),
         isNotInCurrentMonth: true,
         isWeekend: week-- >= 6,
         lunarDay,
@@ -98,6 +97,7 @@ class CalendarDetailBody extends React.Component<ICalendarDetailBodyProps, ICale
         month,
         year,
       })
+      day--;
       lunarDay--;
       if (lunarDay <= 0) {
         lunarDay = this.lunarData.getLunarMonthAndDay(year, month, day).day;
@@ -114,8 +114,8 @@ class CalendarDetailBody extends React.Component<ICalendarDetailBodyProps, ICale
     let week = this.getDateWeek(nextMonthFirstDayDate);
     for (let i = lastTrData.length; i < 7; i++) {
       lastTrData.push({
-        day: day++,
-        hasSchedule: false,
+        day,
+        hasSchedule: this.checkHasSchedule(year, month, day),
         isNotInCurrentMonth: true,
         isWeekend: week++ >= 6,
         lunarDay,
@@ -123,6 +123,7 @@ class CalendarDetailBody extends React.Component<ICalendarDetailBodyProps, ICale
         month,
         year
       })
+      day++;
       lunarDay++;
       if (lunarDay > lunarData.currentMonthDaysNum) {
         lunarDay = 1
@@ -130,8 +131,19 @@ class CalendarDetailBody extends React.Component<ICalendarDetailBodyProps, ICale
     }
   }
 
+  public checkHasSchedule (year: number, month: number, day: number): boolean {
+    if (!this.props.schedules) {
+      return false;
+    }
+    return !!this.props.schedules.find(e => e.year === year && e.month === month && e.day === day);
+  }
+
   public selectDate (data: IDateTableData) {
     if (this.props.updateDate) {
+      const { startYear, endYear } = this.lunarData.getScopeOfLunarYear();
+      if (data.year < startYear || data.year > endYear) {
+        return;
+      }
       this.props.updateDate({ year: data.year, month: data.month, day: data.day });
     }
   }

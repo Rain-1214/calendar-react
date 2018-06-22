@@ -4,6 +4,7 @@ import "./Calendar.component.scss";
 import { ICalendarProps, ICalendarStates } from "./Calendar.component.type";
 import CalendarDetailBody from "./children/calendar-body/CalendarBody.component";
 import CalendarDetailHeader from "./children/calendar-header/CalendarHeader.component";
+import Schedule from "./children/schedule/Schedule.component";
 import { IScheduleList } from "./index.type";
 
 class Calendar extends React.Component<ICalendarProps, ICalendarStates> {
@@ -30,6 +31,156 @@ class Calendar extends React.Component<ICalendarProps, ICalendarStates> {
     year: this.props.defaultYear as number,
   }
 
+  public componentWillMount () {
+    const schedule: IScheduleList[] = [
+      {
+        day: 22,
+        month: 6,
+        schedules: [
+          {
+            description: '吃饭',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '睡觉',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          }
+        ],
+        year: 2018,
+      },
+      {
+        day: 12,
+        month: 6,
+        schedules: [
+          {
+            description: '吃饭1',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '睡觉1',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          }
+        ],
+        year: 2018,
+      },
+      {
+        day: 5,
+        month: 6,
+        schedules: [
+          {
+            description: '吃饭2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '睡觉2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '吃饭2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '睡觉2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '吃饭2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '睡觉2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '吃饭2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '睡觉2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '吃饭2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '睡觉2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '吃饭2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '睡觉2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '吃饭2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '睡觉2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '吃饭2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+          {
+            description: '睡觉2',
+            endTime: '10:00',
+            iconColor: '#ff0000',
+            startTime: '9:00',
+          },
+        ],
+        year: 2018,
+      }
+    ];
+    this.setState({
+      schedule,
+      showSchedule: true
+    })
+  }
+
   public returnToday = () => {
     const today = new Date();
     this.setState({
@@ -43,18 +194,18 @@ class Calendar extends React.Component<ICalendarProps, ICalendarStates> {
     // tslint:disable-next-line:no-console
     console.log(changeValue)
     switch (true) {
-      case !!changeValue.year:
-        this.setState({
-          year: changeValue.year
-        })
-      case !!changeValue.month:
-        this.setState({
-          month: changeValue.month
-        })
       case !!changeValue.day:
         this.setState({
           day: changeValue.day as number
-        })
+        });
+      default:
+        this.setState({
+          month: changeValue.month,
+          year: changeValue.year,
+        });
+        if (this.props.updateDate) {
+          this.props.updateDate({ year: changeValue.year, month: changeValue.month, day: changeValue.day || this.state.day })
+        }
     }
   }
 
@@ -66,13 +217,13 @@ class Calendar extends React.Component<ICalendarProps, ICalendarStates> {
             <CalendarDetailHeader year={this.state.year} month={this.state.month} returnToday={this.returnToday} updateDate={this.receiveDateChange} />
           </div>
           <div className="body">
-            <CalendarDetailBody year={this.state.year} month={this.state.month} day={this.state.year}
+            <CalendarDetailBody year={this.state.year} month={this.state.month} day={this.state.day}
                                 scheduleIconColor={this.state.scheduleIconColor} showSchedule={this.state.showSchedule}
-                                updateDate={this.receiveDateChange}/>
+                                schedules={this.state.schedule} updateDate={this.receiveDateChange}/>
           </div>
         </div>
         <div className="schedule-wrapper">
-          schedule
+          <Schedule year={this.state.year} month={this.state.month} day={this.state.day} schedule={this.state.schedule} />
         </div>
       </div>
     )
