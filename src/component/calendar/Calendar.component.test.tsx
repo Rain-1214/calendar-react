@@ -2,6 +2,7 @@
 import * as Enzyme from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
 import * as React from 'react';
+import * as sinon from 'sinon';
 import Calendar from './Calendar.component';
 import { ICalendarProps, ICalendarStates } from './Calendar.component.type';
 import { IScheduleList } from './index.type';
@@ -103,7 +104,6 @@ describe('Calendar Component Tests', () => {
     expect(state.month).toBe(2);
     expect(state.year).toBe(1999);
     instance.returnToday();
-    wrapper.update();
     state = wrapper.state();
     const today = new Date();
     expect(state.day).toBe(today.getDate());
@@ -112,7 +112,16 @@ describe('Calendar Component Tests', () => {
   });
 
   it('component send "year","month" and "day" to parent by the method of "props" updateDate when them changed', () => {
-    const updateDateSpy = jest.spyOn();
+    const updateDateSpy = sinon.fake();
+    wrapper = Enzyme.shallow(<Calendar updateDate={updateDateSpy} />)
+    const instance: Calendar = wrapper.instance() as Calendar;
+    const mockParamer = {
+      day: 1,
+      month: 1,
+      year: 1950,
+    }
+    instance.receiveDateChange(mockParamer);
+    expect(updateDateSpy.calledWith(mockParamer)).toBe(true);
   });
 
 });

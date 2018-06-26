@@ -49,7 +49,7 @@ class Schedule extends React.Component<IScheduleProps, IScheduleStates> {
             { this.state.lunarData.chineseEra.era }年 { this.state.lunarData.chineseEra.chineseZodiacAnimal }年
           </div>
           <div>
-            { this.state.lunarData.isLeapYear ? '闰' : '' }{ `${this.state.lunarData.monthStr}${this.state.lunarData.dayStr}` }
+            { this.state.lunarData.isLeapMonth ? '闰' : '' }{ `${this.state.lunarData.monthStr}${this.state.lunarData.dayStr}` }
           </div>
         </div>
         <div className="list">
