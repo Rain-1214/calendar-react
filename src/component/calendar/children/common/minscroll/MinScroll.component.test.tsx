@@ -1,9 +1,16 @@
 
 import * as Enzyme from 'enzyme';
 import * as Adapter from 'enzyme-adapter-react-16';
+import * as jsdom from 'jsdom';
 import * as React from 'react';
 import MinScroll from './MinScroll.component';
 import { IMinScrollProps, IMinScrollStates } from './MinScroll.component.type';
+
+if (document === undefined) {
+  const dom = new jsdom.JSDOM(`<!DOCTYPE html><html><head></head><body></body></html>`);
+  window = dom.window;
+  document = window.document
+}
 
 Enzyme.configure({
   adapter: new Adapter()
@@ -121,6 +128,48 @@ describe('MinScroll component test', () => {
     (wrapper.instance() as MinScroll).sourceHeight = 1500;
     (wrapper.instance() as MinScroll).maxScrollBarDistance = 170;
     (wrapper.instance() as MinScroll).maxScrollElementDistance = 1300;
-    
+    let bar = wrapper.find('.bar');
+    bar.simulate('mousedown', { 
+      // tslint:disable-next-line:no-empty
+      stopPropagation: () => {},
+      nativeEvent: {
+        clientY: 10,
+        // tslint:disable-next-line:no-empty
+        stopPropagation: () => {},
+        // tslint:disable-next-line:no-empty
+        stopImmediatePropagation: () => {} 
+      } 
+    });
+
+    document.dispatchEvent(new MouseEvent('mousemove', { clientY: 100 }));
+    wrapper.update();
+    bar = wrapper.find('.bar');
+    let scrollElementDiv = wrapper.find('.scroll-element');
+    expect((bar.props().style as React.CSSProperties).top).toBe(90);
+    expect((scrollElementDiv.props().style as React.CSSProperties).top).toBe(-(90 / 170 * 1300));
+
+    document.dispatchEvent(new MouseEvent('mousemove', { clientY: 500 }));
+    wrapper.update();
+    bar = wrapper.find('.bar');
+    scrollElementDiv = wrapper.find('.scroll-element');
+    expect((bar.props().style as React.CSSProperties).top).toBe(170);
+    expect((scrollElementDiv.props().style as React.CSSProperties).top).toBe(-1300);
+
+    document.dispatchEvent(new MouseEvent('mousemove', { clientY: -500 }));
+    wrapper.update();
+    bar = wrapper.find('.bar');
+    scrollElementDiv = wrapper.find('.scroll-element');
+    expect((bar.props().style as React.CSSProperties).top).toBe(0);
+    expect((scrollElementDiv.props().style as React.CSSProperties).top).toBe(-0);
+
+    bar.simulate('mouseup');
+
+    document.dispatchEvent(new MouseEvent('mousemove', { clientY: 100 }));
+    wrapper.update();
+    bar = wrapper.find('.bar');
+    scrollElementDiv = wrapper.find('.scroll-element');
+    expect((bar.props().style as React.CSSProperties).top).toBe(0);
+    expect((scrollElementDiv.props().style as React.CSSProperties).top).toBe(-0);
+
   });
 });

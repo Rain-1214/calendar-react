@@ -20,8 +20,8 @@ class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
     value: this.props.value || this.props.placeholder || '待选择',
   }
 
+  public minScrollComponentRef: React.RefObject<MinScroll>;
   private liHeight = 24;
-  private minScrollComponentRef: React.RefObject<MinScroll>;
 
   public componentDidMount () {
     this.minScrollComponentRef = React.createRef();
@@ -37,7 +37,7 @@ class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
             listVisible: false
           })
         }
-      }, false)
+      }, false);
     }
   }
 
@@ -68,10 +68,13 @@ class Dropdown extends React.Component<IDropdownProps, IDropdownStates> {
 
   public updateSelectValue (listData: IListData, event: React.MouseEvent) {
     event.stopPropagation();
+    const value = (listData.value !== null && listData.value !== undefined) ? listData.value : this.props.placeholder || '待选择';
     this.setState({
-      value: listData.value || this.props.placeholder || '待选择'
+      value
     })
-    this.props.updateValue(listData.value);
+    if (this.props.updateValue) {
+      this.props.updateValue(listData.value);
+    }
   }
 
   public stopMouseDownPropagation (event: React.MouseEvent) {

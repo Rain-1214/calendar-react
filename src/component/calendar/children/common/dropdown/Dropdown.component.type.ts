@@ -7,8 +7,8 @@ export interface IDropdownProps {
   listData: IListData[];
   globalClickClose?: boolean;
   placeholder?: string;
-  value: string | number | null;
-  updateValue: (value: string | number | null) => void
+  value?: string | number | null;
+  updateValue?: (value: string | number | null) => void
 }
 
 export interface IDropdownStates {
