@@ -13,6 +13,14 @@ describe('Calendar Detail Header Component test', () => {
 
   let wrapper: Enzyme.ShallowWrapper<ICalendarDetailHeaderProps, ICalendarDetailHeaderStates>;
   const returnTodaySpy = sinon.fake();
+  CalendarDetailHeader.prototype.lunarCalendar = {
+    getScopeOfLunarYear() {
+      return {
+        startYear: 1900,
+        endYear: 2050
+      }
+    }
+  } as any;
 
   beforeEach(() => {
     wrapper = Enzyme.shallow(<CalendarDetailHeader returnToday={returnTodaySpy} />)
@@ -33,7 +41,17 @@ describe('Calendar Detail Header Component test', () => {
     const nextBtn = secondDiv.find('.next');
     expect(nextBtn.length).toBe(1);
     expect(nextBtn.hasClass('icon')).toBe(true);
-    
+  })
+
+  it('component should set prev month when ".prev" clicked', () => {
+    wrapper.update();
+    const btn = wrapper.find('.prev').first();
+    // tslint:disable-next-line:no-console
+    console.log(wrapper.state())
+    btn.simulate('click');
+    wrapper = wrapper.update();
+    // tslint:disable-next-line:no-console
+    console.log(wrapper.state())
   })
 
 })
