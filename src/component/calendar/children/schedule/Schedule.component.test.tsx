@@ -33,12 +33,12 @@ describe('Schedule Component test', () => {
   }
 
   beforeEach(() => {
-    Schedule.prototype.lunarData = {
+    wrapper = Enzyme.shallow(<Schedule {...props} />);
+    (wrapper.instance() as Schedule).lunarData = {
       getLunarMonthAndDay () {
         return lunarDate;
       },
     } as any;
-    wrapper = Enzyme.shallow(<Schedule {...props} />)
   })
 
   it('component shoule have a div with class ".schedule", then there are ".header" div and ".list" div in it', () => {

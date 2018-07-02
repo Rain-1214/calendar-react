@@ -86,11 +86,11 @@ class CalendarDetailHeader extends React.Component<ICalendarDetailHeaderProps, I
       month = 1;
       this.setState({
         month,
-        year: year++,
+        year: ++year,
       })
     } else {
       this.setState({
-        month: month++
+        month: ++month
       })
     }
     if (this.props.updateDate) {
@@ -108,11 +108,11 @@ class CalendarDetailHeader extends React.Component<ICalendarDetailHeaderProps, I
       month = 12;
       this.setState({
         month,
-        year: year--
+        year: --year
       })
     } else {
       this.setState({
-        month: month--
+        month: --month
       })
     }
     if (this.props.updateDate) {

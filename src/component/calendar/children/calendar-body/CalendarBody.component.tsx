@@ -49,7 +49,7 @@ class CalendarDetailBody extends React.Component<ICalendarDetailBodyProps, ICale
         tableData[i] = [];
       }
       const currentTr = tableData[i];
-      for (let j = currentTr.length - 1; currentTr.length < 7; j++) {
+      for (let j = currentTr.length; currentTr.length < 7; j++) {
         currentTr.push({
           day,
           hasSchedule: this.checkHasSchedule(year, month ,day),

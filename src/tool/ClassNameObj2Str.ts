@@ -12,6 +12,8 @@ class ClassNameConverter {
     }
     return result.trimRight();
   }
+
+  private constructor() {}
 }
 
 export default ClassNameConverter;
