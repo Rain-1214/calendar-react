@@ -31,155 +31,155 @@ class Calendar extends React.Component<ICalendarProps, ICalendarStates> {
     year: this.props.defaultYear as number,
   }
 
-  public componentWillMount () {
-    // const schedule: IScheduleList[] = [
-    //   {
-    //     day: 22,
-    //     month: 6,
-    //     schedules: [
-    //       {
-    //         description: '吃饭',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '睡觉',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       }
-    //     ],
-    //     year: 2018,
-    //   },
-    //   {
-    //     day: 12,
-    //     month: 6,
-    //     schedules: [
-    //       {
-    //         description: '吃饭1',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '睡觉1',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       }
-    //     ],
-    //     year: 2018,
-    //   },
-    //   {
-    //     day: 5,
-    //     month: 6,
-    //     schedules: [
-    //       {
-    //         description: '吃饭2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '睡觉2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '吃饭2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '睡觉2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '吃饭2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '睡觉2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '吃饭2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '睡觉2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '吃饭2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '睡觉2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '吃饭2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '睡觉2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '吃饭2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '睡觉2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '吃饭2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //       {
-    //         description: '睡觉2',
-    //         endTime: '10:00',
-    //         iconColor: '#ff0000',
-    //         startTime: '9:00',
-    //       },
-    //     ],
-    //     year: 2018,
-    //   }
-    // ];
-    // this.setState({
-    //   schedule,
-    //   showSchedule: true
-    // })
-  }
+  // public componentWillMount () {
+  //   // const schedule: IScheduleList[] = [
+  //   //   {
+  //   //     day: 22,
+  //   //     month: 6,
+  //   //     schedules: [
+  //   //       {
+  //   //         description: '吃饭',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '睡觉',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       }
+  //   //     ],
+  //   //     year: 2018,
+  //   //   },
+  //   //   {
+  //   //     day: 12,
+  //   //     month: 6,
+  //   //     schedules: [
+  //   //       {
+  //   //         description: '吃饭1',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '睡觉1',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       }
+  //   //     ],
+  //   //     year: 2018,
+  //   //   },
+  //   //   {
+  //   //     day: 5,
+  //   //     month: 6,
+  //   //     schedules: [
+  //   //       {
+  //   //         description: '吃饭2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '睡觉2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '吃饭2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '睡觉2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '吃饭2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '睡觉2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '吃饭2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '睡觉2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '吃饭2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '睡觉2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '吃饭2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '睡觉2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '吃饭2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '睡觉2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '吃饭2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //       {
+  //   //         description: '睡觉2',
+  //   //         endTime: '10:00',
+  //   //         iconColor: '#ff0000',
+  //   //         startTime: '9:00',
+  //   //       },
+  //   //     ],
+  //   //     year: 2018,
+  //   //   }
+  //   // ];
+  //   // this.setState({
+  //   //   schedule,
+  //   //   showSchedule: true
+  //   // })
+  // }
 
   public returnToday = () => {
     const today = new Date();
